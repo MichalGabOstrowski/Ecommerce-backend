@@ -6,8 +6,10 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import pl.ryspie.springbootecommerce.entity.Country;
 import pl.ryspie.springbootecommerce.entity.Product;
 import pl.ryspie.springbootecommerce.entity.ProductCategory;
+import pl.ryspie.springbootecommerce.entity.State;
 
 import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
@@ -18,7 +20,7 @@ import java.util.Set;
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
     public MyDataRestConfig(EntityManager entityManager) {
@@ -31,6 +33,8 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
         disableHttpMethodsForGivenClass(config, theUnsupportedActions, Product.class);
         disableHttpMethodsForGivenClass(config, theUnsupportedActions, ProductCategory.class);
+        disableHttpMethodsForGivenClass(config, theUnsupportedActions, Country.class);
+        disableHttpMethodsForGivenClass(config, theUnsupportedActions, State.class);
 
 //        call an internal helper method
         exposeIds(config);
@@ -67,18 +71,5 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
 
     }
-
-
-    //disable HtttpMethod for Product-> PUT, POST, DELETE
-//        config.getExposureConfiguration()
-//                .forDomainType(Product.class)
-//                .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)))
-//                .withCollectionExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)));
-//
-//        //disable HtttpMethod for ProductCategory -> PUT, POST, DELETE
-//        config.getExposureConfiguration()
-//                .forDomainType(ProductCategory.class)
-//                .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)))
-//                .withCollectionExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)));
 }
 
